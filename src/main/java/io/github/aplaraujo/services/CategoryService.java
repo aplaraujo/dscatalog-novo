@@ -3,10 +3,12 @@ package io.github.aplaraujo.services;
 import io.github.aplaraujo.dto.CategoryDTO;
 import io.github.aplaraujo.entities.Category;
 import io.github.aplaraujo.repositories.CategoryRepository;
+import io.github.aplaraujo.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,5 +18,11 @@ public class CategoryService {
     public List<CategoryDTO> findAll() {
         List<Category> list = categoryRepository.findAll();
         return list.stream().map(cat -> new CategoryDTO(cat.getId(), cat.getName())).toList();
+    }
+
+    public CategoryDTO findById(Long id) {
+        Optional<Category> result = categoryRepository.findById(id);
+        Category category = result.orElseThrow(() -> new ResourceNotFoundException("Resource not found!"));
+        return new CategoryDTO(category.getId(), category.getName());
     }
 }
