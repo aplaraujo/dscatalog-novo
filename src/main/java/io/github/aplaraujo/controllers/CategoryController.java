@@ -1,6 +1,7 @@
 package io.github.aplaraujo.controllers;
 
 import io.github.aplaraujo.entities.Category;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
