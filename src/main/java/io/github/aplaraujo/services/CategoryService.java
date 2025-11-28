@@ -17,20 +17,20 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryValidator categoryValidator;
 
-    public List<CategoryDTO> findAll() {
-        List<Category> list = categoryRepository.findAll();
-        return list.stream().map(cat -> new CategoryDTO(cat.getId(), cat.getName())).toList();
+    public List<Category> search(String name) {
+        if (name != null) {
+            return categoryRepository.findByName(name);
+        }
+        return categoryRepository.findAll();
     }
 
-    public CategoryDTO findById(Long id) {
-        Optional<Category> result = categoryRepository.findById(id);
-        Category category = result.orElseThrow(() -> new ResourceNotFoundException("Resource not found!"));
-        return new CategoryDTO(category.getId(), category.getName());
+    public Optional<Category> findById(Long id) {
+        return categoryRepository.findById(id);
     }
 
-    public Category insert(Category category) {
-        categoryValidator.validate(category);
-        return categoryRepository.save(category);
-    }
+//    public Category insert(Category category) {
+//        categoryValidator.validate(category);
+//        return categoryRepository.save(category);
+//    }
 
 }

@@ -21,7 +21,7 @@ public class CategoryValidator {
     }
 
     private boolean doesCategoryExist(Category category){
-        Optional<Category> categoryFound = categoryRepository.findByName(category.getName());
+        Optional<Category> categoryFound = categoryRepository.searchByName(category.getName());
 
         if (category.getId() == null) {
             return categoryFound.isPresent();
