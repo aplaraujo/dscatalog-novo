@@ -25,4 +25,15 @@ public class CategoryService {
         Category category = result.orElseThrow(() -> new ResourceNotFoundException("Resource not found!"));
         return new CategoryDTO(category.getId(), category.getName());
     }
+
+    public CategoryDTO insert(CategoryDTO dto) {
+        Category entity = new Category();
+        copyDtoToEntity(dto, entity);
+        entity = categoryRepository.save(entity);
+        return new CategoryDTO(entity.getId(), entity.getName());
+    }
+
+    private void copyDtoToEntity(CategoryDTO dto, Category entity) {
+        entity.setName(dto.name());
+    }
 }
