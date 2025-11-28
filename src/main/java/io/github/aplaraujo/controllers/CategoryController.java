@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -36,11 +37,26 @@ public class CategoryController implements GenericController {
         return ResponseEntity.ok(dto);
     }
 
-//    @PostMapping
-//    public ResponseEntity<Void> insert(@RequestBody CategoryDTO dto) {
-//        Category category = categoryMapper.toEntity(dto);
-//        categoryService.insert(category);
-//        URI location = generateHeaderLocation(category.getId());
-//        return ResponseEntity.created(location).build();
-//    }
+    @PostMapping
+    public ResponseEntity<Void> insert(@RequestBody CategoryDTO dto) {
+        Category category = categoryMapper.toEntity(dto);
+        categoryService.insert(category);
+        URI location = generateHeaderLocation(category.getId());
+        return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update(@PathVariable String id, @RequestBody CategoryDTO dto) {
+        var categoryId = Long.parseLong(id);
+        Optional<Category> category = categoryService.findById(categoryId);
+
+        if (category.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        var result = category.get();
+        result.setName(dto.name());
+        categoryService.update(result);
+        return ResponseEntity.noContent().build();
+    }
 }
