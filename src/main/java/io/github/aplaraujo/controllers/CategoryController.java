@@ -59,4 +59,17 @@ public class CategoryController implements GenericController {
         categoryService.update(result);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        var categoryId = Long.parseLong(id);
+        Optional<Category> category = categoryService.findById(categoryId);
+
+        if (category.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        categoryService.delete(category.get());
+        return ResponseEntity.noContent().build();
+    }
 }
