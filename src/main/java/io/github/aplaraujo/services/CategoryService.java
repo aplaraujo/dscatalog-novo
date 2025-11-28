@@ -4,6 +4,7 @@ import io.github.aplaraujo.dto.CategoryDTO;
 import io.github.aplaraujo.entities.Category;
 import io.github.aplaraujo.repositories.CategoryRepository;
 import io.github.aplaraujo.services.exceptions.ResourceNotFoundException;
+import io.github.aplaraujo.validators.CategoryValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private final CategoryValidator categoryValidator;
 
     public List<CategoryDTO> findAll() {
         List<Category> list = categoryRepository.findAll();
@@ -26,14 +28,9 @@ public class CategoryService {
         return new CategoryDTO(category.getId(), category.getName());
     }
 
-    public CategoryDTO insert(CategoryDTO dto) {
-        Category entity = new Category();
-        copyDtoToEntity(dto, entity);
-        entity = categoryRepository.save(entity);
-        return new CategoryDTO(entity.getId(), entity.getName());
+    public Category insert(Category category) {
+        categoryValidator.validate(category);
+        return categoryRepository.save(category);
     }
 
-    private void copyDtoToEntity(CategoryDTO dto, Category entity) {
-        entity.setName(dto.name());
-    }
 }

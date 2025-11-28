@@ -1,11 +1,12 @@
 package io.github.aplaraujo.controllers;
 
 import io.github.aplaraujo.dto.CategoryDTO;
+import io.github.aplaraujo.entities.Category;
+import io.github.aplaraujo.mapper.CategoryMapper;
 import io.github.aplaraujo.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
@@ -13,9 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/categories")
 @RequiredArgsConstructor
-public class CategoryController {
+public class CategoryController implements GenericController {
 
     private final CategoryService categoryService;
+    private final CategoryMapper categoryMapper;
 
     @GetMapping
     public ResponseEntity<List<CategoryDTO>> findAll() {
@@ -30,9 +32,10 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDTO> insert(@RequestBody CategoryDTO dto) {
-        dto = categoryService.insert(dto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.id()).toUri();
-        return ResponseEntity.created(uri).body(dto);
+    public ResponseEntity<Void> insert(@RequestBody CategoryDTO dto) {
+        Category category = categoryMapper.toEntity(dto);
+        categoryService.insert(category);
+        URI location = generateHeaderLocation(category.getId());
+        return ResponseEntity.created(location).build();
     }
 }
