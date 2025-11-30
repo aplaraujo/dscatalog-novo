@@ -6,10 +6,16 @@ import io.github.aplaraujo.repositories.CategoryRepository;
 import io.github.aplaraujo.services.exceptions.ResourceNotFoundException;
 import io.github.aplaraujo.validators.CategoryValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static io.github.aplaraujo.repositories.specs.CategorySpecs.nameLike;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +50,18 @@ public class CategoryService {
 
     public void delete(Category category) {
         categoryRepository.delete(category);
+    }
+
+    public Page<Category> findAllByPage(String name, Integer pagina, Integer tamanhoPagina) {
+        Specification<Category> specification = Specification
+                .where((root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
+
+        if (name != null) {
+            specification = specification.and(nameLike(name));
+        }
+
+        Pageable pageable = PageRequest.of(pagina, tamanhoPagina);
+        return categoryRepository.findAll(specification, pageable);
     }
 
 }

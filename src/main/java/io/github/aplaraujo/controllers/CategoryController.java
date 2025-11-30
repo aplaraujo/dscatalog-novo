@@ -1,10 +1,13 @@
 package io.github.aplaraujo.controllers;
 
 import io.github.aplaraujo.dto.CategoryDTO;
+import io.github.aplaraujo.dto.CategorySearchDTO;
 import io.github.aplaraujo.entities.Category;
 import io.github.aplaraujo.mapper.CategoryMapper;
 import io.github.aplaraujo.services.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -71,5 +74,16 @@ public class CategoryController implements GenericController {
 
         categoryService.delete(category.get());
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<CategorySearchDTO>> findCategoriesByPage(
+            @RequestParam(name = "name", defaultValue = "") String name, Pageable pageable,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage
+    ) {
+        Page<Category> result = categoryService.findAllByPage(name, page, linesPerPage);
+        Page<CategorySearchDTO> categorySearchDTOPage = result.map(categoryMapper::catDTO);
+        return ResponseEntity.ok(categorySearchDTOPage);
     }
 }
