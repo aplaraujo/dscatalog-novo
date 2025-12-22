@@ -1,3 +1,9 @@
 spring:
   application:
     name: dscatalog-novo
+
+  jpa:
+    open-in-view: false
+
+  profiles:
+    active: test
