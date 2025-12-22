@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Category {
+public class Category extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
