@@ -15,11 +15,13 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Product {
+public class Product extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
     private Double price;
     private String imgUrl;
