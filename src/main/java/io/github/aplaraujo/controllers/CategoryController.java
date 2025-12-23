@@ -44,7 +44,8 @@ public class CategoryController implements GenericController{
         var categoryId = Long.parseLong(id);
         return categoryService.findById(categoryId).map(cat -> {
             Category entity = categoryMapper.toEntity(dto);
-            entity.setName(dto.name());
+            cat.setName(entity.getName());
+            categoryService.update(cat);
             return ResponseEntity.noContent().build();
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
