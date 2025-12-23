@@ -1,5 +1,6 @@
 package io.github.aplaraujo.entities;
 
+import io.github.aplaraujo.entities.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,5 +19,5 @@ public class Role {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private String authority;
+    private RoleEnum authority;
 }
