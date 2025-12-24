@@ -27,6 +27,7 @@ public class CategoryController implements GenericController{
         return ResponseEntity.created(url).build();
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDTO> findById(@PathVariable("id") String id) {
         var categoryId = Long.parseLong(id);
@@ -36,11 +37,13 @@ public class CategoryController implements GenericController{
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping
     public List<CategoryDTO> categories() {
         return categoryService.categories();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Object> update(@PathVariable("id") String id, @RequestBody CategoryDTO dto) {
         var categoryId = Long.parseLong(id);
@@ -52,6 +55,7 @@ public class CategoryController implements GenericController{
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") String id) {
         var categoryId = Long.parseLong(id);
