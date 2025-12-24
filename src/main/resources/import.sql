@@ -1,3 +1,15 @@
+INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('Giovanni Henrique', 'Cavalcanti', 'giovannihenriquecavalcanti@megamega.com.br', '$2a$16$9pezVuziMqO4yEi.Pc5T0uzIM/pAf2CIYpB4NLPCVnnx3NjuY5lGm');
+INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('Cecília Heloisa', 'Peixoto', 'cecilia-peixoto95@usa.com', '$2a$16$9pezVuziMqO4yEi.Pc5T0uzIM/pAf2CIYpB4NLPCVnnx3NjuY5lGm');
+INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('Hugo Vitor', 'Martins', 'hugovitormartins@iclud.com', '$2a$16$9pezVuziMqO4yEi.Pc5T0uzIM/pAf2CIYpB4NLPCVnnx3NjuY5lGm');
+
+INSERT INTO tb_role (authority) VALUES ('ROLE_USER');
+INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
+
+INSERT INTO tb_user_role (user_id, role_id) VALUES (1, 1);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 1);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 2);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (3, 1);
+
 INSERT INTO tb_category (name, created_At) VALUES ('Eletrônicos', NOW());
 INSERT INTO tb_category (name, created_At) VALUES ('Livros', NOW());
 INSERT INTO tb_category (name, created_At) VALUES ('Computadores', NOW());
