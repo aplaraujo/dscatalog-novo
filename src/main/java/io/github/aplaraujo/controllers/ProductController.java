@@ -8,6 +8,7 @@ import io.github.aplaraujo.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,7 @@ public class ProductController implements GenericController {
     private final ProductService service;
     private final ProductMapper mapper;
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody ProductDTO dto) {
         Product product = mapper.toEntity(dto);
@@ -25,6 +27,7 @@ public class ProductController implements GenericController {
         return ResponseEntity.created(url).build();
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable("id") String id) {
         var productId = Long.parseLong(id);
@@ -34,6 +37,7 @@ public class ProductController implements GenericController {
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping
     public ResponseEntity<Page<ProductDTO>> search(
             @RequestParam(value = "name", required = false) String name,
@@ -46,6 +50,7 @@ public class ProductController implements GenericController {
         return ResponseEntity.ok(page1);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PutMapping("/{id}")
     public ResponseEntity<Object> update(@PathVariable("id") String id, @RequestBody ProductDTO dto) {
         var productId = Long.parseLong(id);
@@ -60,6 +65,7 @@ public class ProductController implements GenericController {
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") String id) {
         var productId = Long.parseLong(id);
