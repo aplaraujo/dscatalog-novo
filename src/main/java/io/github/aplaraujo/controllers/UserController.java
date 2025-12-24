@@ -5,11 +5,15 @@ import io.github.aplaraujo.entities.User;
 import io.github.aplaraujo.security.UserDetailsServiceImpl;
 import io.github.aplaraujo.services.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -22,6 +26,20 @@ public class UserController {
     @GetMapping("/welcome")
     public String welcome() {
         return "Welcome this endpoint is not secure";
+    }
+
+    @GetMapping("/admin")
+    public String adminRoute() {
+        return "Admin route!";
+    }
+
+    @GetMapping("/debug")
+    public ResponseEntity<?> debug() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return ResponseEntity.ok(Map.of(
+                "username", auth.getName(),
+                "authorities", auth.getAuthorities()
+        ));
     }
 
     @PostMapping("/new-user")

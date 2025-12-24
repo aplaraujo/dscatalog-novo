@@ -6,6 +6,7 @@ import io.github.aplaraujo.mappers.CategoryMapper;
 import io.github.aplaraujo.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class CategoryController implements GenericController{
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody CategoryDTO dto) {
         Category cat = categoryMapper.toEntity(dto);
