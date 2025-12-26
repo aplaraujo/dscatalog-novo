@@ -27,7 +27,6 @@ public class CategoryController implements GenericController{
         return ResponseEntity.created(url).build();
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDTO> findById(@PathVariable("id") String id) {
         var categoryId = Long.parseLong(id);
@@ -37,7 +36,6 @@ public class CategoryController implements GenericController{
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping
     public List<CategoryDTO> categories() {
         return categoryService.categories();

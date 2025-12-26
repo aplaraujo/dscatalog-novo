@@ -27,7 +27,7 @@ public class ProductController implements GenericController {
         return ResponseEntity.created(url).build();
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable("id") String id) {
         var productId = Long.parseLong(id);
@@ -37,7 +37,7 @@ public class ProductController implements GenericController {
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+
     @GetMapping
     public ResponseEntity<Page<ProductDTO>> search(
             @RequestParam(value = "name", required = false) String name,

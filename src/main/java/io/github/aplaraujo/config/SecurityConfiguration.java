@@ -28,8 +28,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/auth/welcome", "/auth/new-user", "/auth/token", "/h2-console/**").permitAll()
+                        auth.requestMatchers("/auth/welcome", "/auth/new-user", "/auth/token", "/h2-console/**", "/products/**", "/categories/**").permitAll()
                                 .requestMatchers("/auth/user/**").hasAuthority("ROLE_USER")
                                 .requestMatchers("/auth/admin/**").hasAuthority("ROLE_ADMIN")
                                 .anyRequest().authenticated()

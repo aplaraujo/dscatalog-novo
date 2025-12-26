@@ -1,9 +1,13 @@
 package io.github.aplaraujo.tests;
 
+import io.github.aplaraujo.dto.CategoryDTO;
+import io.github.aplaraujo.dto.ProductDTO;
 import io.github.aplaraujo.entities.Category;
 import io.github.aplaraujo.entities.Product;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ProductFactory {
@@ -15,4 +19,9 @@ public class ProductFactory {
         return product;
     }
 
+    public static ProductDTO createProductDTO() {
+        Product product = new Product();
+        List<CategoryDTO> categories = new ArrayList<>();
+        return new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getImgUrl(), categories);
+    }
 }
